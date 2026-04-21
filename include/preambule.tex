@@ -1,0 +1,90 @@
+%% Работа с русским языком
+\usepackage{cmap}			 % поиск в PDF
+\usepackage{mathtext} 		 % русские буквы в формулах
+\usepackage[T2A]{fontenc}	 % кодировка
+\usepackage[utf8]{inputenc}	 % кодировка исходного текста
+\usepackage[russian]{babel}	 % локализация и переносы
+
+%% Пакеты для работы с математикой
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools}
+\usepackage{icomma}
+
+%% Нумерация формул (опционально)
+%\mathtoolsset{showonlyrefs=true} % показывать номера только у тех формул, на которые есть \eqref{} в тексте.
+%\usepackage{leqno}               % нумерация формул слева
+
+%% Шрифты
+\usepackage{euscript}	 % шрифт "Евклид"
+\usepackage{mathrsfs}    % красивый мат. шрифт
+
+%% Некоторые полезные макросы для дебага
+\makeatletter
+\newcommand\thefontsize{The current font size is: \f@size pt} % пример: \section{\thefontsize}
+\makeatother
+
+%% Настройка размеров шрифтов
+\makeatletter
+\setlength{\headheight}{28pt}
+\renewcommand\Huge{\@setfontsize\Huge{14pt}{10}}
+\renewcommand\huge{\@setfontsize\huge{14pt}{10}}
+\renewcommand\Large{\@setfontsize\Large{14pt}{10}}
+\renewcommand\large{\@setfontsize\large{12pt}{10}}
+\makeatother
+
+%% Поля (геометрия страницы)
+\usepackage[left=3cm,right=1.5cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+
+%% Русские списки
+\usepackage{enumitem}
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
+
+%% Работа с картинками
+\usepackage{caption}
+\captionsetup{justification=centering}
+\usepackage{graphicx}
+\graphicspath{{images/}{images2/}}
+\setlength\fboxsep{3pt}
+\setlength\fboxrule{1pt}
+\usepackage{wrapfig}
+
+%% Работа с таблицами
+\usepackage{array,tabularx,tabulary,booktabs}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{hhline}
+
+%% Красная строка
+\setlength{\parindent}{1.25cm}
+
+%% Интервалы
+\linespread{1}
+
+%% TikZ
+\usepackage{tikz}
+\usetikzlibrary{graphs,graphs.standard}
+
+%% Верхний колонтитул
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+%% Перенос знаков в формулах (по Львовскому)
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}{\hbox{$\mathsurround=0pt #1$}}{}}
+
+%% Дополнительно
+\usepackage{float}
+\usepackage{gensymb}
+\usepackage{listings}
+\lstset{
+basicstyle=\small\ttfamily,
+columns=flexible,
+breaklines=true
+}
+
+%% Hyperref (для ссылок внутри pdf)
+\usepackage[unicode, pdftex]{hyperref}
+
+%% Отступ перед первым абзацем в каждом разделе
+\usepackage{indentfirst}
