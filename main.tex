@@ -21,25 +21,30 @@
     \newpage
 
     % \fontsize{14}{16}\selectfont
-    \input{parts/Chapter0.tex} %% Введение
+    \input{parts/Chapter0.tex}
     \newpage
-    \input{parts/Chapter1.tex} %% Постановка задачи
+    \input{parts/Chapter1.tex}
     \newpage
-    \input{parts/Chapter2.tex} %% Обзор существующих решений
+    \input{parts/Chapter2.tex}
     \newpage
-    \input{parts/Chapter3.tex} %% Исследование и построение решения задачи
+    \input{parts/Chapter3.tex}
     \newpage
-    \input{parts/Chapter4.tex} %% Практическая часть
+    \input{parts/Chapter4.tex}
     \newpage
-    \input{parts/Chapter5.tex} %% Заключение
+    \input{parts/Chapter5.tex}
     \newpage
+    \appendix
+    \renewcommand{\thesection}{\Asbuk{section}}
+    \input{parts/Appendix1.tex}
+    \newpage
+    \input{parts/Appendix2.tex}
 
     %% Раскомментируйте следующую строку, если нужно вывести все записи из references.bib,
     %% даже если на них нет ссылок в тексте.
     % \nocite{*}
+    \newpage
+    \phantomsection
+    \addcontentsline{toc}{section}{Список литературы}
     \bibliography{references}
 
-    %% при необходимости подключите приложения
-    % \newpage
-    % \input{parts/Appendix.tex}
 \end{document}

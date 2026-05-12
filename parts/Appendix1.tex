@@ -1,0 +1,141 @@
+\refstepcounter{section}
+\section*{Приложение~\thesection. Аналитические выражения для матрицы $B$}
+\addcontentsline{toc}{section}{Приложение~\thesection}
+
+В настоящем приложении приведены аналитические выражения для матрицы $B$, а также её первой и второй производных по истинной долготе $L$, используемых в вычислении производных матрицы манёвра. Матрицу $B$ представим по столбцам: 
+\begin{equation*}
+    B = 
+    \begin{bmatrix}
+        B_1 & B_2 & B_3
+    \end{bmatrix},
+\end{equation*}
+\begin{equation*}
+    B_1 = 
+    \begin{bmatrix}
+        \frac{2a^{2}}{\sqrt{\mu P}}(k\sin L-h\cos L) \\
+        -\sqrt{\frac{P}{\mu}}\cos L \\
+        \sqrt{\frac{P}{\mu}}\sin L \\
+        0 \\
+        0 \\
+        -\frac{r}{\sqrt{\mu P}}\bigl(bw(h\sin L+k\cos L)+2\sqrt{\frac{P}{a}}\bigr)
+    \end{bmatrix},
+\end{equation*}
+\begin{equation*}
+    B_2 = 
+    \begin{bmatrix}
+        \frac{2a^{2}}{\sqrt{\mu P}}w \\
+        \sqrt{\frac{P}{\mu}}\frac{h+(w+1)\sin L}{w} \\
+        \sqrt{\frac{P}{\mu}}\frac{k+(w+1)\cos L}{w} \\
+        0 \\
+        0 \\
+        \frac{r}{\sqrt{\mu P}}b(w+1)(k\sin L-h\cos L)
+    \end{bmatrix},
+    \quad
+    B_3 = 
+    \begin{bmatrix}
+        0 \\
+        \sqrt{\frac{P}{\mu}}\frac{kI}{w}(q\sin L-Ip\cos L) \\
+        -\sqrt{\frac{P}{\mu}}\frac{hI}{w}(q\sin L-Ip\cos L) \\
+        \sqrt{\frac{P}{\mu}}\frac{(1+p^{2}+q^{2})\sin L}{2w} \\
+        \sqrt{\frac{P}{\mu}}\frac{(1+p^{2}+q^{2})I\cos L}{2w} \\
+        \frac{r}{\sqrt{\mu P}}(Iq\sin L-p\cos L)
+    \end{bmatrix}.
+\end{equation*}
+где $w= 1 + h \sin L + k \cos L$.
+
+Аналогичным образом представим первую производную матрицы $B$ по истинной долготе $L$: 
+\begin{equation*}
+    \frac{dB}{dL} = 
+    \begin{bmatrix}
+        \frac{dB_1}{dL} & \frac{dB_2}{dL} & \frac{dB_3}{dL}
+    \end{bmatrix},
+\end{equation*}
+\begin{equation*}
+    \frac{dB_1}{dL} = 
+    \begin{bmatrix}
+        \frac{2a^{2}}{\sqrt{\mu P}}(k\cos L + h \sin L) \\
+        \sqrt{\frac{P}{\mu}} \sin L \\
+        \sqrt{\frac{P}{\mu}} \cos L \\ 
+        0 \\
+        0 \\
+        -\frac{r}{\sqrt{\mu P}} \bigl[ wb (h \cos L - k \sin L) - \frac{2}{w} \frac{dw}{dL} \sqrt{\frac{P}{a}} \bigr]
+    \end{bmatrix},
+\end{equation*}
+\begin{equation*}
+    \frac{dB_2}{dL} = 
+    \begin{bmatrix}
+        \frac{2a^{2}}{\sqrt{\mu P}} \frac{dw}{dL} \\
+        \sqrt{\frac{P}{\mu}} \left[ \frac{(w + 1) \cos L}{w} - \frac{h + \sin L}{w^2} \frac{dw}{dL} \right] \\
+        -\sqrt{\frac{P}{\mu}} \left[ \frac{(w + 1) \sin L}{w} + \frac{k + \cos L}{w^2} \frac{dw}{dL} \right] \\
+        0 \\
+        0 \\
+        \frac{r}{\sqrt{\mu P}} \bigl[ b (w + 1) (k \cos L + h \sin L) - \frac{b}{w} \frac{dw}{dL} (k \sin L - h \cos L) \bigr]
+    \end{bmatrix},
+\end{equation*}
+\begin{equation*}
+    \frac{dB_3}{dL} = 
+    \begin{bmatrix}
+        0 \\
+        \sqrt{\frac{P}{\mu}} \frac{kI}{w^2} \left[ (q \cos L + I p \sin L) w - (q \sin L - I p \cos L) \frac{dw}{dL} \right] \\
+        -\sqrt{\frac{P}{\mu}} \frac{hI}{w^2} \left[ (q \cos L + I p \sin L) w - (q \sin L - I p \cos L) \frac{dw}{dL} \right] \\
+        \sqrt{\frac{P}{\mu}} \frac{1 + p^2 + q^2}{2} \left[ \frac{\cos L}{w} - \frac{\sin L}{w^2} \frac{dw}{dL} \right] \\
+        -\sqrt{\frac{P}{\mu}} \frac{1 + p^2 + q^2}{2} I \left[ \frac{\sin L}{w} + \frac{\cos L}{w^2} \frac{dw}{dL} \right] \\
+        \frac{r}{\sqrt{\mu P}} \left[ (Iq \cos L + p \sin L) - \frac{1}{w} \frac{dw}{dL} (Iq \sin L - p \cos L) \right]
+    \end{bmatrix},
+\end{equation*}
+где $\frac{dw}{dL} = h \cos L - k \sin L $.
+
+Вторая производная матрицы $B$ по истинной долготе $L$:
+\begin{equation*}
+\frac{d^2 B}{dL^2} =
+\begin{bmatrix}
+    \frac{d^2 B_1}{dL^2} & \frac{d^2 B_2}{dL^2} & \frac{d^2 B_3}{dL^2}
+\end{bmatrix},
+\end{equation*}
+\begin{equation*}
+\frac{d^2 B_1}{dL^2} =
+    \begin{bmatrix}
+        \frac{2a^{2}}{\sqrt{\mu P}} (-k \sin L + h \cos L) \\
+        \sqrt{\frac{P}{\mu}} \cos L \\
+        -\sqrt{\frac{P}{\mu}} \sin L \\
+        0 \\
+        0 \\
+        -\frac{r}{\sqrt{\mu P}} \left[ -wb (h \sin L + k \cos L) + \frac{2}{w} \sqrt{\frac{P}{a}}
+        \left( \frac{2}{w} \left( \frac{dw}{dL} \right)^2 - \frac{d^2 w}{dL^2} \right) \right]
+    \end{bmatrix},
+\end{equation*}
+\begin{equation*}
+\frac{d^2 B_2}{dL^2} =
+    \begin{bmatrix}
+        \frac{2a^{2}}{\sqrt{\mu P}} \frac{d^2 w}{dL^2} \\
+        -\sqrt{\frac{P}{\mu}} \left[ \frac{(w + 1) \sin L}{w} + 2 \frac{\cos L}{w^2} \frac{dw}{dL} -
+        2 \frac{h + \sin L}{w^3} \left( \frac{dw}{dL} \right)^2 + \frac{h + \sin L}{w^2} \frac{d^2 w}{dL^2} \right]  \\
+        -\sqrt{\frac{P}{\mu}} \left[ \frac{(w + 1) \cos L}{w} - 2 \frac{\sin L}{w^2} \frac{dw}{dL} -
+        2 \frac{k + \cos L}{w^3} \left( \frac{dw}{dL} \right)^2 + \frac{k + \cos L}{w^2} \frac{d^2 w}{dL^2} \right]  \\
+        0 \\
+        0 \\
+        -\frac{r}{\sqrt{\mu P}} b \left[ \left( 1 + w + \frac{1}{w} \frac{d^2 w}{dL^2} -
+        \frac{2}{w} \left( \frac{dw}{dL} \right)^2 \right) (k \sin L - h \cos L) +
+        \frac{2}{w} \frac{dw}{dL} (k \cos L + h \sin L) \right]
+    \end{bmatrix},
+\end{equation*}
+\begin{equation*}
+\frac{d^2 B_3}{dL^2} =
+    \begin{bmatrix}
+        0 \\
+        \sqrt{\frac{P}{\mu}} \frac{kI}{w^2} \left[ \left( -w - \frac{d^2 w}{dL^2} +
+        \frac{2}{w} \left( \frac{dw}{dL} \right)^2 \right) (q \sin L - I p \cos L) -
+        2 \frac{dw}{dL} (q \cos L + Ip \sin L) \right] \\
+        -\sqrt{\frac{P}{\mu}} \frac{hI}{w^2} \left[ \left( -w - \frac{d^2 w}{dL^2} +
+        \frac{2}{w} \left( \frac{dw}{dL} \right)^2 \right) (q \sin L - I p \cos L) -
+        2 \frac{dw}{dL} (q \cos L + Ip \sin L) \right] \\
+        \sqrt{\frac{P}{\mu}} \frac{1 + p^2 + q^2}{2} \left[ -\frac{\sin L}{w} - 2 \frac{\cos L}{w^2} \frac{dw}{dL} +
+        2 \frac{\sin L}{w^3} \left( \frac{dw}{dL} \right)^2 - \frac{\sin L}{w^2} \frac{d^2 w}{dL^2} \right] \\
+        -\sqrt{\frac{P}{\mu}} \frac{1 + p^2 + q^2}{2} I \left[ \frac{\cos L}{w} - 2 \frac{\sin L}{w^2} \frac{dw}{dL} -
+        2 \frac{\cos L}{w^3} \left( \frac{dw}{dL} \right)^2 + \frac{\cos L}{w^2} \frac{d^2 w}{dL^2} \right] \\
+        -\frac{r}{\sqrt{\mu P}}  \left[ \left( 1 + \frac{1}{w} \frac{d^2 w}{dL^2} -
+        \frac{2}{w^2} \left( \frac{dw}{dL} \right)^2 \right) (Iq \sin L - p \cos L) +
+        \frac{2}{w} \frac{dw}{dL} (Iq \cos L + p \sin L) \right]
+    \end{bmatrix},
+\end{equation*}
+где $ \frac{d^2 w}{dL^2} = -h \sin L - k \cos L$.
