@@ -8,6 +8,53 @@
 
 Подобный подход является стандартным при моделировании и оптимизации траекторий с манёврами конечной длительности \cite{morante2021survey, scarritt2012finite}. Далее рассматривается нелинейная задача встречи в приближении манёвров конечной тяги.
 
+\subsection{Постановка задачи}
+
+В приближении конечной тяги управление задаётся последовательностью участков работы двигателя. Будем считать, что на каждом участке вектор управляющего ускорения постоянен как по направлению, так и по модулю. Тогда управление можно записать в виде
+\begin{equation}
+    \mathbf{a}_{\text{ft}}(t) = \sum_{j=1}^{N} \Pi_j(t) a_{\text{ft}} \mathbf{e}_j,
+\end{equation}
+где $\Pi_j(t)$ --- индикатор $j$-го манёвра:
+\begin{equation}
+    \Pi_j(t)=
+    \begin{cases}
+        1, & t \in [t_j^{\text{beg}},\, t_j^{\text{end}}],\\
+        0, & \text{иначе},
+    \end{cases}
+\end{equation}
+а $\mathbf{e}_j \in \mathbb{R}^{3}$ задаёт направление тяги на $j$-м участке и удовлетворяет условию $\Vert \mathbf{e}_j \Vert_2 = 1$. 
+
+Пусть центральная точка манёвра имеет истинную долготу $L_c$. Соответствующий этой точке момент времени обозначим $t_c$. Длительность $j$-го манёвра равна $\Delta t_j = t_j^{\text{end}} - t_j^{\text{beg}}$. Соответствующая характеристическая скорость выражается как 
+\begin{equation}
+    \Delta V_j = a_{\text{ft}} \Delta t_j.
+\label{dv_a_dt}
+\end{equation}
+Поэтому при фиксированном модуле ускорения минимизация суммарной характеристической скорости эквивалентна минимизации суммарного времени работы двигателя:
+\begin{equation}
+    \sum_{j=1}^N \Delta V_j = a_{\text{ft}} \sum_{j=1}^N \Delta t_j.
+\end{equation}
+% Угловая длина манёвра может быть приближённо найдена по формуле
+% \begin{equation}
+%     \Delta L_j \approx \frac{n w(L_j^c)^2}{\eta^3}.
+% \end{equation}
+Тогда мы можем сформулировать задачу встречи с конечной тягой следующим образом:
+\begin{equation}
+\begin{aligned}
+    \min_{\Delta t_j, \mathbf{e}_j, t_j^c} \quad &a_{\text{ft}} \sum_{j=1}^N \Delta t_j, \\
+    \text{s.t.} \quad &\dot{\mathbf{y}} = \mathbf{f}(t, \mathbf{y}) + \sum_{j=1}^{N} B(\mathbf{y}) \Pi_j(t) a_{\text{ft}} \mathbf{e}_j, \\
+    &\mathbf{y}(t_i) = \mathbf{y}_i, \\
+    &\mathbf{y}(t_f) = \mathbf{y}_t, \\
+    &\Delta t_j \leq \Delta t_{\text{max}}, \quad j = 1, \dots, N,
+\end{aligned}
+\label{problem_finite_thrust}
+\end{equation}
+где $\Delta t_{\text{max}}$ --- максимальная продолжительность манёвра. 
+
+Построенное ранее многоимпульсное линейное решение используется для задания начального приближения в задаче с конечной тягой. Для этого параметры $\Delta t_{\text{max}}$ и $\Delta V_{\text{max}}$ должны быть согласованы с помощью (\ref{dv_a_dt}). Важно отметить, что решение задачи (\ref{problem_finite_thrust}) отличается от такого начального приближения не только нелинейным условием, но и самой моделью управления. Правомерность его использования будет обоснована в следующих разделах. Производить уточнение решения будем методом последовательной линеаризации, описанном в разделе 4.3. Для этого необходимо получить аналог матрицы $B(\mathbf{y})$, учитывающий продолжительность манёвра. Получим такую матрицу.
+
+
+ПОДУМАТЬ ПРО КОЭФФФИЦИЕНТ БЕТА
+
 \subsection{Матрица чувствительности для манёвра с конечной тягой}
 
 Рассмотрим один манёвр с конечной тягой, выполняемый на участке траектории $L \in [L_1, L_2]$, где $L_1$ и $L_2$ --- истинные долготы начала и конца манёвра. Пусть управляющее ускорение на этом участке постоянно в ОСК и равно $\mathbf{a}_{\text{ft}} \in \mathbb{R}^{3}$. Для протяжённого манёвра воздействие распределено по конечной дуге, поэтому вклад управления определяется интегрированием локальных изменений орбитальных элементов:
@@ -68,7 +115,7 @@
 
 \subsection{Связь манёвра конечной тяги с импульсным манёвром}
 
-Покажем, что импульсный манёвр является предельным случаем манёвра конечной тяги. Пусть в момент времени $t_c$ выполняется точечный импульс скорости $\Delta \mathbf V$. В линейном приближении его влияние на орбитальные элементы имеет вид $\Delta \mathbf{y}_{\text{imp}} = B(L(t_c)) \Delta \mathbf V$. Теперь заменим этот импульс манёвром конечной тяги на малом интервале времени $[t_1, t_2]$, а ускорение $\mathbf{a}_{\text{ft}}$ на этом участке постоянно и выбрано так, чтобы полное изменение скорости совпадало с исходным импульсом:
+Проясним связь импульсного манёвра и манёвра конечной тяги. Пусть в точке с истинной долготой $L_c$ в момент времени $t_c$ прикладывается импульс скорости $\Delta \mathbf V$. В линейном приближении его влияние на орбитальные элементы имеет вид $\Delta \mathbf{y}_{\text{imp}} = B(L_c) \Delta \mathbf V$. Теперь заменим этот импульс манёвром конечной тяги на малом интервале времени $[t_1, t_2]$, что соответствует дуге $\left[ L_c - \Delta L / 2, L_c + \Delta L / 2 \right]$. Пусть ускорение $\mathbf{a}_{\text{ft}}$ на этом участке постоянно и выбрано так, чтобы полное изменение скорости совпадало с исходным импульсом:
 \begin{equation}
     \Delta \mathbf V = \int_{t_1}^{t_2} \mathbf{a}_{\text{ft}} dt = 
     \mathbf{a}_{\text{ft}} \Delta t.
@@ -77,16 +124,68 @@
 \begin{equation}
     \Delta \mathbf{y}_{\text{ft}} = B_{\text{ft}} (L_1, L_2) \mathbf{a}_{\text{ft}}.
 \end{equation}
-Обратимся к определению матрицы (\ref{B_ft_t}) и отдельно проанлизируем поведение слагаемых в предельном переходе. Если длительность манёвра стремится к нулю, то весь участок работы двигателя стягивается к точке $t_c$. Поэтому матрица $B(L(t))$ на всём интервале манёвра стремится к $B(L(t_c))$. Тогда основной вклад принимает вид 
+
+Оценим ошибку, возникающую при замене точечного импульса манёвром с конечной тягой. Рассмотрим основной вклад, связанный с матрицей $B(L)$. Введём $F(L) = dt / dL$. Так как ускорение на участе манёвра постоянно, имеем
 \begin{equation}
-    \int_{t_1}^{t_2} B(L(t)) \mathbf{a}_{\text{ft}} dt 
-    \xrightarrow{\Delta t \rightarrow 0} 
-    B(L(t_c)) \int_{t_1}^{t_2} \mathbf{a}_{\text{ft}} dt = 
-    B(L(t_c)) \Delta \mathbf V.
+    \int_{t_1}^{t_2} B(L(t)) \mathbf{a}_{\text{ft}} dt = 
+    \int_{L_c - \Delta L / 2}^{L_c + \Delta L / 2} B(L) F(L) \mathbf{a}_{\text{ft}} dL.
 \end{equation}
-Второе слагаемое связано с изменением большой полуоси во время манёвра и с соответствующим изменением среднего движения. Используя (\ref{da_b_a}), получим
+Полное изменение скорости на этом участке равно
 \begin{equation}
-    \int_{t_1}^{t_2} \mathbf{e}_\lambda \frac{dn}{da} \Delta \mathbf{a}(t) \mathbf{a}_{\text{ft}} dt = 
+    \Delta \mathbf{V} = \int_{t_1}^{t_2} \mathbf{a}_{\text{ft}} dt = 
+    \mathbf{a}_{\text{ft}} \int_{L_c - \Delta L / 2}^{L_c + \Delta L / 2} F(L) dL.
+\end{equation}
+Тогда прямое действие протяжённого манёвра можно записать как
+\begin{equation}
+    \int_{t_1}^{t_2} B(L(t)) \mathbf{a}_{\text{ft}} dt = 
+    \left( \frac{\int_{L_c - \Delta L / 2}^{L_c + \Delta L / 2} B(L) F(L) dL}{\int_{L_c - \Delta L / 2}^{L_c + \Delta L / 2} F(L) dL} \right) \Delta \mathbf{V}.
+\end{equation}
+Выражение в скобках является усреднённым значением матрицы чувствительности на дуге манёвра. Сравним его с импульсной матрицей $B(L_c)$. Положим $L = L_c + \xi$, тогда $\xi \in \left[ -\frac{\Delta L}{2}, \frac{\Delta L}{2} \right]$. Разложим $B(L)$ и $F(L)$ в ряд Тейлора в окрестности $L_c$
+\begin{equation}
+    B(L_c + \xi) = B_c + B_c^{'} \xi + \frac{1}{2} B_c^{''} \xi^2 + \mathcal{O} (\xi^3),
+\label{B_L_c_xi}
+\end{equation}
+\begin{equation}
+    F(L_c + \xi) = F_c + F_c^{'} \xi + \frac{1}{2} F_c^{''} \xi^2 + \mathcal{O} (\xi^3),
+\label{F_L_c_xi}
+\end{equation}
+где $B_c = B(L_c)$, $F_c = F(L_c)$. 
+Перемножая разложения (\ref{B_L_c_xi}) и (\ref{F_L_c_xi}), получаем
+\begin{equation}
+    B(L_c + \xi) F(L_c + \xi) = B_c F_c + (B_c^{'} F_c + B_c F_c^{'}) \xi + 
+    \left( \frac{1}{2} B_c^{''} F_c + B_c^{'} F_c^{'} + \frac{1}{2} B_c F_c^{''} \right) \xi^2 + \mathcal{O} (\xi^3).
+\end{equation}
+При интегрировании по симметричному интервалу все нечётные слагаемые исчезают, поэтому числитель принимает вид:
+\begin{equation}
+    \int_{L_c - \Delta L / 2}^{L_c + \Delta L / 2} B(L) F(L) dL = 
+    B_c F_c \Delta L + \frac{\Delta L^3}{12} \left( \frac{1}{2} B_c^{''} F_c + B_c^{'} F_c^{'} + \frac{1}{2} B_c F_c^{''} \right) + \mathcal{O} (\Delta L^5).
+\end{equation}
+Аналогично для знаменателя:
+\begin{equation}
+    \int_{L_c - \Delta L / 2}^{L_c + \Delta L / 2} F(L) dL = 
+    F_c \Delta L + \frac{\Delta L^3}{24} F_c^{''} + \mathcal{O} (\Delta L^5).
+\end{equation}
+Теперь разделим числитель и знаменатель на $\Delta L F_c$ и разложим дробь по малому параметру $\Delta L$:
+\begin{equation}
+\begin{aligned}
+    \frac{\int_{L_c - \Delta L / 2}^{L_c + \Delta L / 2} B(L) F(L) dL}{\int_{L_c - \Delta L / 2}^{L_c + \Delta L / 2} F(L) dL} &= 
+    \frac{B_c F_c \Delta L + \frac{\Delta L^3}{24} \left( B_c^{''} F_c + 2 B_c^{'} F_c^{'} + B_c F_c^{''} \right) + \mathcal{O} (\Delta L^5)}{F_c \Delta L + \frac{\Delta L^3}{24} F_c^{''} + \mathcal{O} (\Delta L^5)} = \\
+    &= \frac{B_c + \frac{\Delta L^2}{24} \left( B_c^{''} + 2 B_c^{'} \frac{F_c^{'}}{F_c} + B_c \frac{F_c^{''}}{F_c} \right) + \mathcal{O} (\Delta L^4)}{1 + \frac{\Delta L^2}{24} \frac{F_c^{''}}{F_c} + \mathcal{O} (\Delta L^4)} = \\ 
+    &= \left[ B_c + \frac{\Delta L^2}{24} \left( B_c^{''} + 2 B_c^{'} \frac{F_c^{'}}{F_c} + B_c \frac{F_c^{''}}{F_c} \right) + \mathcal{O} (\Delta L^4) \right] \cdot \\
+    &\quad \; \cdot \left[ 1 - \frac{\Delta L^2}{24} \frac{F_c^{''}}{F_c} + \mathcal{O} (\Delta L^4) \right] = \\
+    &= B_c + \frac{\Delta L^2}{24} \left( B_c^{''} + 2 B_c^{'} \frac{F_c^{'}}{F_c} \right) + \mathcal{O} (\Delta L^4).
+\end{aligned}
+\end{equation}
+Следовательно, отличие прямого вклада протяжённого манёвра от импульсного имеет порядок
+\begin{equation}
+    \Vert \Delta \mathbf{y}_{B} - \Delta \mathbf{y}_{\text{imp}} \Vert = 
+    \mathcal{O} (\Delta L^2 \Delta V ).
+\end{equation}
+Это объясняет, почему участок конечной тяги удобно располагать симметрично относительно истинной долготы исходного импульса. При таком выборе ошибка первого порядка по $\Delta L$ сокращается. Если же манёвр смещён относительно $L_c$, то такого сокращения в общем случае не происходит, и ошибка может иметь первый порядок по угловой длине манёвра.
+
+Однако в матрицу $B_{\text{ft}}$ входит также дополнительное слагаемое, описывающее изменение средней долготы из-за изменения большой полуоси во время работы двигателя. Оценим его отдельно. Используя (\ref{da_b_a}), получим
+\begin{equation}
+    \Delta \mathbf{y}_{\lambda} = \int_{t_1}^{t_2} \mathbf{e}_\lambda \frac{dn}{da} \Delta \mathbf{a}(t) \mathbf{a}_{\text{ft}} dt = 
     \mathbf{e}_\lambda \frac{dn}{da} \mathbf{a}_{\text{ft}} \int_{t_1}^{t_2} \left( \int_{t_1}^t \mathbf{b}_a(s) ds \right) dt.
 \end{equation}
 При малой длительности манёвра величину $\mathbf{b}_a(s)$ можно считать постоянной: 
@@ -95,7 +194,7 @@
 \end{equation}
 Тогда
 \begin{equation}
-    \int_{t_1}^{t_2} \mathbf{e}_\lambda \frac{dn}{da} \Delta \mathbf{a}(t) \mathbf{a}_{\text{ft}} dt \approx
+    \Delta \mathbf{y}_{\lambda} \approx
     \mathbf{e}_\lambda \frac{dn}{da} \mathbf{b}_a(t_c) \mathbf{a}_{\text{ft}} \int_{t_1}^{t_2} (t - t_1) dt.
 \end{equation}
 Так как
@@ -104,55 +203,132 @@
 \end{equation}
 то
 \begin{equation}
-    \int_{t_1}^{t_2} \mathbf{e}_\lambda \frac{dn}{da} \Delta \mathbf{a}(t) \mathbf{a}_{\text{ft}} dt \approx
-    \frac{1}{2} \mathbf{e}_\lambda \frac{dn}{da} \mathbf{b}_a(t_c) \mathbf{a}_{\text{ft}} \Delta t 
-    \xrightarrow{\Delta t \rightarrow 0} 
-    0.
+    \Delta \mathbf{y}_{\lambda} \approx
+    \frac{1}{2} \mathbf{e}_\lambda \frac{dn}{da} \mathbf{b}_a(t_c) \Delta \mathbf{V}\Delta t.
+\end{equation}
+Пусть $\delta a_{\text{imp}} = \mathbf{b}_a(t_c) \Delta \mathbf{V}$ --- изменение большой полуоси, которое дал бы соответствующий импульсный манёвр в точке $L_c$. Тогда
+\begin{equation}
+    \Vert \Delta \mathbf{y}_{\lambda} \Vert \sim \frac{1}{2} \left\vert \frac{dn}{da} \right\vert \vert \delta a_{\text{imp}} \vert \Delta t.
+\end{equation}
+Так как $\frac{dn}{da} = -\frac{3}{2} \frac{n}{a}$, а для достаточно короткой дуги $n \Delta t \sim \Delta L$, то 
+\begin{equation}
+    \Vert \Delta \mathbf{y}_{\lambda} \Vert \sim \frac{3}{4} \frac{\vert \delta a_{\text{imp}} \vert}{a} \Delta L.
+\end{equation}
+Для импульсного изменения большой полуоси можно использовать оценку
+\begin{equation}
+    \frac{\vert \delta a_{\text{imp}} \vert}{a} \sim
+    C_a \frac{\Delta V}{V_\text{ref}},
+\end{equation}
+где $C_a$ --- безразмерный коэффициент, зависящий от направления импульса и параметров орбиты. Для тангенциального импульса на околокруговой орбите $C_a \approx 2$. Тогда
+\begin{equation}
+    \Vert \Delta \mathbf{y}_{\lambda} \Vert \sim C_\lambda \Delta L \frac{\Delta V}{V_\text{ref}},
+\end{equation}
+где $C_\lambda$ --- безразмерный коэффициент порядка единицы. 
+
+С учётом дополнительного слагаемого в матрице $B_{\text{ft}}$, связанного с изменением средней долготы во время манёвра, оценку удобно записать в виде
+\begin{equation}
+    \varepsilon_{\text{ft}} = \frac{\Vert \Delta \mathbf{y}_{\text{ft}} - \Delta \mathbf{y}_{\text{imp}} \Vert}{\Vert \Delta \mathbf{y}_{\text{imp}} \Vert} \lesssim 
+    C_{B} \frac{\Delta L^2}{24} + C_\lambda \Delta L.
+\label{verepsilon_ft}
+\end{equation}
+Угол, при котором два слагаемых имеют одинаковый порядок:
+\begin{equation}
+    \Delta L^* = 24 \frac{C_\lambda}{C_B}.
 \end{equation}
 Таким образом, при стремлении длительности работы двигателя к нулю действие манёвра конечной тяги на орбитальные элементы совпадает с действием точечного импульса той же величины:
 \begin{equation}
     \Delta \mathbf{y}_{\text{ft}} 
-    \xrightarrow{\Delta t \rightarrow 0} 
+    \xrightarrow{\Delta L \rightarrow 0} 
     \Delta \mathbf{y}_{\text{imp}}.
 \end{equation}
-Поэтому при малой длительности манёвра импульсное решение можно использовать как хорошее начальное приближение для задачи с конечной тягой.
+Поэтому при малой длительности манёвра импульсное решение можно использовать в качестве начального приближения для задачи с конечной тягой.
 
-\subsection{Оценка ошибки перехода от импульсного манёвра к манёвру с конечной тягой}
+Проведём несколько численных тестов для того, чтобы определить правдоподобность оценки (\ref{verepsilon_ft}). Рассмотрим реальные нелинейные изменения орбитальных элементов для импульсного манёвра $\Delta \mathbf{y}_{\text{imp}}$ и манёвра с конечной тягой $\Delta \mathbf{y}_{\text{ft}}$. Для того, чтобы исключить влияние конкретной модели пассивных сил, положим $\Delta \mathbf{y}_{\text{ft}} = \mathbf{y}_{\text{ft}}(t_2) - \mathbf{y}_{\text{pass}}(t_2)$. Здесь активный и пассивный прогнозы считаются в одной и той же модели двух тел, а отличие создаётся только конечной тягой. Нелинейное воздействие импульсного манёвра будем считать с помощью перевода орбитальных элементов, соответствующих центральной точке манёвра $L_c$, в положение и скорость $(\mathbf{r}, \mathbf{v})$, добавления импульса $\Delta V$ и обратной конвертации. Тогда $\Delta \mathbf{y}_{\text{imp}} = \mathbf{y}(t_c^{+}) - \mathbf{y}(t_c^{-})$. 
 
-\subsection{Управление с конечной тягой}
+Рассмотрим несколько случаев. Будем прикладывать трансверсальный, радиальный и нормальный манёвры в разных точках околокруговых и эллиптических орбит. Эксцентриситет околокруговых орбит равен $0.001$, эллиптических --- $0.1$. Общие параметры для всех орбит: $a = 7500$ км, $\omega = 20^\circ$, $i = 30^\circ$, $\Omega = 40^\circ$. Характеристическая скорость импульсного манёвра и манёвра с конечной тягой одинакова по модулю во всех случаях и равна $1$ м/с.
 
-В приближении конечной тяги управление задаётся последовательностью участков работы двигателя. Будем считать, что на каждом участке вектор управляющего ускорения постоянен как по направлению, так и по модулю. Тогда управление можно записать в виде
-\begin{equation}
-    \mathbf{a}_{\text{ft}}(t) = \sum_{j=1}^{N} \Pi_j(t) a_{\text{ft}} \mathbf{e}_j,
-\end{equation}
-где $\Pi_j(t)$ --- индикатор $j$-го манёвра:
-\begin{equation}
-    \Pi_j(t)=
-    \begin{cases}
-        1, & t \in [t_j^{\text{beg}},\, t_j^{\text{end}}],\\
-        0, & \text{иначе},
-    \end{cases}
-\end{equation}
-а $\mathbf{e}_j \in \mathbb{R}^{3}$ задаёт направление тяги на $j$-м участке и удовлетворяет условию $\Vert \mathbf{e}_j \Vert_2 = 1$. 
+Результаты численного тестирования представлены на графиках \ref{fig::varepsilon_ft_t} --- \ref{fig::varepsilon_ft_n}. Коэффициенты аппроксимации для соответсвующих случаев, а также значения $\Delta L^*$ представлены в таблицах \ref{tab::transverse_fit_coeffs} --- \ref{tab::normal_fit_coeffs}.
+\begin{figure}[!htbp]
+\centering
 
-Длительность $j$-го манёвра равна $\Delta t_j = t_j^{\text{end}} - t_j^{\text{beg}}$. Тогда соответствующая характеристическая скорость $\Delta V_j = a_{\text{ft}} \Delta t_j$. Поэтому при фиксированном модуле ускорения минимизация суммарной характеристической скорости эквивалентна минимизации суммарного времени работы двигателя:
-\begin{equation}
-    \sum_{j=1}^N \Delta V_j = a_{\text{ft}} \sum_{j=1}^N \Delta t_j.
-\end{equation}
+\begin{subfigure}{0.9\textwidth}
+    \centering
+    \includegraphics[height=0.27\textheight]{y_ft_to_y_imp/t.png}
+    \caption{Трансверсальный манёвр}
+    \label{fig::varepsilon_ft_t}
+\end{subfigure}
 
-\subsection{Начальное приближение}
+\vspace{0.5em}
 
-Построенное ранее многоимпульсное линейное решение используется для задания начального приближения в задаче с конечной тягой. 
+\begin{subfigure}{0.9\textwidth}
+    \centering
+    \includegraphics[height=0.27\textheight]{y_ft_to_y_imp/r.png}
+    \caption{Радиальный манёвр}
+    \label{fig::varepsilon_ft_r}
+\end{subfigure}
 
-\subsection{Постановка задачи}
+\vspace{0.5em}
 
-\begin{equation}
-\begin{aligned}
-    \min_{\Delta t_j, \mathbf{e}_j, L_j^c} \quad &a_{\text{ft}} \sum_{j=1}^N \Delta t_j, \\
-    \text{s.t.} \quad &\dot{\mathbf{y}} = \mathbf{f}(t, \mathbf{y}) + \sum_{j=1}^N B_{\text{ft}} (t_j^{\text{beg}}, t_j^{\text{end}}) \Pi_j(t) a_{\text{ft}} \mathbf{e}_j, \\
-    &\mathbf{y}(t_i) = \mathbf{y}_i, \\
-    &\mathbf{y}(t_f) = \mathbf{y}_t, \\
-    &\Delta t_j \leq \Delta t_{\text{max}}, \quad j = 1, \dots, N.
-\end{aligned}
-\label{problem_finite_thrust}
-\end{equation}
+\begin{subfigure}{0.9\textwidth}
+    \centering
+    \includegraphics[height=0.27\textheight]{y_ft_to_y_imp/n.png}
+    \caption{Нормальный манёвр}
+    \label{fig::varepsilon_ft_n}
+\end{subfigure}
+
+\caption{Относительная ошибка $\varepsilon_{\text{ft}}$}
+\label{fig::varepsilon_ft}
+\end{figure}
+
+\begin{table}[h!]
+\centering
+\caption{Коэффициенты аппроксимации для трансверсальных манёвров}
+\label{tab::transverse_fit_coeffs}
+\begin{tabular}{|c|c|c|c|}
+    \hline
+    № & $C_B / 24$ & $C_\lambda$ & $\Delta L^*, ^\circ$ \\
+    \hline
+    1 & 0.00170737  & 0.529069 & $\gg 90$ \\
+    \hline
+    2 & 0.00501837  & 0.451351 & $\gg 90$ \\
+    \hline
+    3 & -0.00385977 & 0.615204 & не определяется \\
+    \hline
+\end{tabular}
+\end{table}
+\begin{table}[h!]
+\centering
+\caption{Коэффициенты аппроксимации для радиальных манёвров}
+\label{tab::radial_fit_coeffs}
+\begin{tabular}{|c|c|c|c|}
+    \hline
+    № & $C_B / 24$ & $C_\lambda$ & $\Delta L^*, ^\circ$ \\
+    \hline
+    1 & 0.0178069 & 0.00053966  & 1.74 \\
+    \hline
+    2 & 0.0204807 & 0.000383635 & 1.07 \\
+    \hline
+    3 & 0.0182444 & 0.00105745  & 3.32 \\
+    \hline
+\end{tabular}
+\end{table}
+\begin{table}[h!]
+\centering
+\caption{Коэффициенты аппроксимации для нормальных манёвров}
+\label{tab::normal_fit_coeffs}
+\begin{tabular}{|c|c|c|c|}
+    \hline
+    № & $C_B / 24$ & $C_\lambda$ & $\Delta L^*, ^\circ$ \\
+    \hline
+    1 & 0.0397881 & 0.00118088  & 1.70 \\
+    \hline
+    2 & 0.0385948 & 0.000184798 & 0.27 \\
+    \hline
+    3 & 0.0424068 & 0.00277794  & 3.75 \\
+    \hline
+\end{tabular}
+\end{table}
+
+Из анализа представленных результатов можно заключить, что оценка (\ref{verepsilon_ft}) корректно описывает поведение относительной ошибки $\varepsilon_{\text{ft}}$. Однако вклад линейного и квадратичного членов сильно отличается для разных типов манёвров. В случае трансверсального манёвра доминирует линейный член, а точка переключения режимов $\Delta L^* \gg 90^\circ$. Обратная ситуация возникает при приложении радиального и нормального манёвров: основным является вклад квадратичного слагаемого, точка переключения режимов $\Delta L^* < 4^\circ$. Кроме того, важным фактором является величина ошибки. Радиальный и нормальный манёвры дают более чем на порядок меньшие ошибки по сравнению с трансверсальным манёвром. Это связано с тем, что радиальный и нормальный манёвры слабо влияют на изменение большой полуоси и соответствующее изменение среднего движения. А именно этот фактор отвечает за линейный тренд.
+
+
