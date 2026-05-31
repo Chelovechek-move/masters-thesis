@@ -68,7 +68,7 @@
 \begin{equation*}
     \nabla^2 \mathcal{J}(\mathbf{L}^{(k)})~ \mathbf{d}^{(k)} = - \nabla \mathcal{J}(\mathbf{L}^{(k)}).
 \end{equation*}
-Таким образом, реализация метода требует вычисления градиента и матрицы Гесса функции $\mathcal{J}(\mathbf{L})$. Поскольку использование разностных схем влечёт существенные вычислительные затраты, мной получены аналитические выражения для этих величин. Далее предполагается, что $\Delta \mathbf{V}_j \neq 0$, $j = 1, 2$. Градиент $\nabla \mathcal{J}(\mathbf{L}) \in \mathbb{R}^{2}$ имеет вид
+Таким образом, реализация метода требует вычисления градиента и матрицы Гесса функции $\mathcal{J}(\mathbf{L})$. Поскольку использование разностных схем влечёт существенные вычислительные затраты, в работе получены аналитические выражения для этих величин. Далее предполагается, что $\Delta \mathbf{V}_j \neq 0$, $j = 1, 2$. Градиент $\nabla \mathcal{J}(\mathbf{L}) \in \mathbb{R}^{2}$ имеет вид
 \begin{equation*}
     \nabla \mathcal{J}_j = \sum_{i=1}^{2} \frac{\partial \mathcal{J}_i}{\partial L_j} =
     \sum_{i=1}^{2} \mathbf{e}_i^\top \frac{\partial \Delta \mathbf{V}_i}{\partial L_j}, \quad
